@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"> 
+    <title>Post New Thread - Tortoise Forum</title>
+    <style>
+        body {
+            margin: 0;
+            background-color: rgb(214, 234, 240); 
+            padding-top: 70px;
+            padding-bottom: 50px;
+            /* 移除此行以统一字体 */
+        }
+        .top-nav {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+        }
+        .top-nav .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 5px 10px; /* 修正：增加内边距 */
+            margin-left: -10px; /* 修正：增加负外边距 */
+            border-radius: 5px; /* 修正：增加圆角 */
+            transition: background-color 0.3s ease; /* 修正：增加过渡效果 */
+        }
+
+        /* 修正：增加悬停效果 */
+        .top-nav .logo a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .top-nav .user-actions input[type="button"] {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s, color 0.3s; /* 修正：补上过渡效果 */
+        }
+        .post-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .post-container h2 {
+            color: #333;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        .form-group input[type="text"],
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .form-group textarea {
+            height: 250px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: rgb(8, 80, 8);
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgb(12, 116, 12);
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+    <div class="top-nav">
+        <div class="logo">
+            <a href="TortoiseForum.html">Tortoise Forum</a>
+        </div>
+        <div class="user-actions">
+            <!-- 登录状态动态显示 -->
+        </div>
+    </div>
+
+    <div class="post-container">
+        <h2>新しいスレッドを作成</h2>
+        <form id="new-thread-form">
+            <div class="form-group">
+                <label for="thread-title">タイトル</label>
+                <input type="text" id="thread-title" name="title" placeholder="スレッドのタイトルを入力してください" required>
+            </div>
+            <div class="form-group">
+                <label for="thread-content">内容</label>
+                <textarea id="thread-content" name="content" placeholder="投稿の内容を入力してください" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">スレッドを投稿</button>
+        </form>
+    </div>
+
+    <div class="footer"></div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="forum.js"></script>
+    <script src="add_topic.js"></script>
+</body>
+</html>
