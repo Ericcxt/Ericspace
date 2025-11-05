@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"> 
+    <title> Tortoise Forum </title>
+    <style>
+        body {
+            margin: 0; /* 移除body的默认外边距 */
+            background-color: rgb(214, 234, 240); 
+            padding-top: 70px; /* 保持顶部内边距以避免内容被导航栏遮挡 */
+            padding-bottom: 50px; 
+        }
+        /* 导航栏样式 */
+        .top-nav {
+            background-color: rgb(12, 116, 12); /*背景颜色*/    
+            color: white; /*字体颜色*/
+            padding: 10px 20px; /*内边距*/
+            display: flex; /* 弹性布局 */
+            justify-content: space-between; /* 内容两端对齐 */
+            align-items: center; /* 上下居中对齐 */
+            position: fixed; /* 固定定位，始终显示 */
+            top: 0; /* 固定在顶部 */
+            width: 100%; /* 宽度为100%，填满屏幕 */
+            z-index: 1000; /* 新增：确保导航栏在其他内容之上，1000为高优先级，较大值即可 */
+            box-sizing: border-box; /* 盒子模型，包含内边距和边框在宽度计算中 */
+        }
+        .top-nav a { /* 导航栏链接部分样式 */
+            color: white; /* 字体颜色 */
+            text-decoration: none;  /* 移除下划线 */
+        }
+        .top-nav .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 5px 10px; /* 保持内边距以获得良好的悬停效果 */
+            margin-left: -10px; /* 小技巧，使用负外边距来抵消内边距，使文本回到原位 */
+            border-radius: 5px; /* 悬停时候，添加圆角，使文本看起来更圆滑 */
+            transition: background-color 0.3s ease; /* 添加过渡效果，0.3s过渡时间 */
+        }
+
+        /* 为logo链接添加悬停效果 */
+        .top-nav .logo a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* 鼠标悬停时改变背景色 */
+        }
+
+        .top-nav .user-actions input[type="button"] { /* 导航栏按钮部分样式 */
+            background-color: transparent; /* 背景颜色透明 */
+            color: white;
+            border: 1px solid white; /* 边框样式 */
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer; /* 鼠标悬停时，改变鼠标指针样式变成手的形状 */
+            margin-left: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .top-nav .user-actions input[type="button"]:hover {
+            background-color: white;
+            color: rgb(12, 116, 12);
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <div class="top-nav">
+        <div class="logo">
+            <a href="TortoiseForum.html">Tortoise Forum</a>
+        </div>
+        <div class="user-actions">
+            <!-- 按钮将由 forum.js 动态插入到此处 -->
+        </div>
+    </div>
+
+    <!-- 欢迎图片 -->
+    <div style="width: 100%; position: relative;">
+        <!-- 背景图片，display: block 来移除图片底部可能出现的空白 -->
+        <img src="./image/title.jpg" alt="tortoise" style="width: 100%; height: 100px; display: block;">
+        
+        <!-- 在这个居中的容器上应用 Flexbox -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    display: flex; /* 让内部元素（图片和文字）水平排列 */
+                    align-items: center; /* 让它们垂直居中对齐 */
+                    gap: 15px; /* 在图片和文字之间添加一些间距 */">
+            
+            <!-- 为了更好的视觉效果，稍微缩小了图片尺寸 -->
+            <img src="./image/title tortoise.jpg" alt="welcome" style="width: 100px; height: 50px;">
+            
+            <!-- 移除 p 标签的默认外边距，并可以加粗字体 -->
+            <p style="font-size: 1.5em; color: rgb(141, 219, 219); margin: 0; font-weight: bold;">ようこそ</p>
+        </div>
+    </div>
+
+    <br>
+    <h2 style="background-color: black; color: white; padding: 8px 15px; margin: 0; font-size: 1.5em; text-align: center;"><a href="TortoiseForumPicture.html" style="color: white; text-decoration: none; display: inline-block; padding: 3px 8px; border-radius: 5px; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.2)';" onmouseout="this.style.backgroundColor='transparent';"> 最新メディア </a></h2>
+
+    <div style="display: flex; 
+                overflow-x: auto; /* 允许横向滚动 */
+                gap: 15px; /* 设置图片之间的间距 */
+                padding-bottom: 15px; /* 为滚动条留出空间，避免遮挡内容 */">
+
+        <!-- 图片1 -->
+        <div style="width: 20%; 
+                    flex-shrink: 0; /* 防止图片被压缩 */
+                    padding-top: 20%;
+                    background-image: url('./image/1.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- 图片2 -->
+        <div style="width: 20%; 
+                    flex-shrink: 0; 
+                    padding-top: 20%;
+                    background-image: url('./image/2.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- 图片3 -->
+        <div style="width: 20%; 
+                    flex-shrink: 0; 
+                    padding-top: 20%;
+                    background-image: url('./image/3.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- 图片4 -->
+        <div style="width: 20%; 
+                    flex-shrink: 0; 
+                    padding-top: 20%;
+                    background-image: url('./image/4.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- 图片5 -->
+        <div style="width: 20%; 
+                    flex-shrink: 0; 
+                    padding-top: 20%;
+                    background-image: url('./image/5.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+
+        <!-- 图片6 -->
+        <div style="width: 20%; 
+                    flex-shrink: 0; 
+                    padding-top: 20%;
+                    background-image: url('./image/6.jpg');
+                    background-size: cover;
+                    background-position: center;">
+        </div>
+    </div>
+    <h2 style="background-color: black; color: white; padding: 8px 15px; margin: 0; font-size: 1.5em; text-align: center;"><a href="TortoiseForumTopic.html" style="color: white; text-decoration: none; display: inline-block; padding: 3px 8px; border-radius: 5px; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.2)';" onmouseout="this.style.backgroundColor='transparent';"> 亀のトピック </a></h2>
+    
+    <div id="topics-container" style="max-width: 85%; margin: 0 auto; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <!-- 这里的静态主题内容将被 get_topics.js 动态替换 -->
+    </div>
+
+
+    <div style="position: fixed; bottom: 0; width: 100%; background-color: rgb(12, 116, 12); height: 50px;">
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- 使用绝对路径确保脚本能被正确加载 -->
+    <script src="/tortoise-java/forum.js"></script>
+    <script src="/tortoise-java/get_topics.js"></script>
+</body>
+</html>

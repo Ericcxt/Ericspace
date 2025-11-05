@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Page - Tortoise Forum</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 70px 0 50px; /* 与主页对齐，为页头页脚留出空间 */
+            background-color: #f0f2f5;
+            color: #333;
+        }
+
+        /* 顶部导航栏 */
+        .top-nav {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+        }
+        .top-nav .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 5px 10px; /* 保持内边距以获得良好的悬停效果 */
+            margin-left: -10px; /* 使用负外边距来抵消内边距，使文本回到原位 */
+            border-radius: 5px;
+            transition: background-color 0.3s ease; /* 添加过渡效果 */
+        }
+
+        /* 为logo链接添加悬停效果 */
+        .top-nav .logo a:hover {
+            background-color: rgba(255, 255, 255, 0.2); /* 鼠标悬停时改变背景色 */
+        }
+
+        .top-nav .user-actions input[type="button"] {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .top-nav .user-actions input[type="button"]:hover {
+            background-color: white;
+            color: rgb(12, 116, 12);
+        }
+
+        /* 主内容区 */
+        .main-container {
+            display: flex;
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto; /* 移除顶部外边距，因为 body 的 padding 已经处理了 */
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            min-height: 60vh;
+        }
+
+        /* 左侧菜单 */
+        .left-menu {
+            flex: 0 0 200px;
+            background-color: #f8f9fa;
+            border-right: 1px solid #e9ecef;
+            padding: 20px;
+            border-radius: 8px 0 0 8px;
+        }
+
+        .left-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .left-menu li a {
+            display: block;
+            padding: 12px 15px;
+            color: #333;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .left-menu li a.active,
+        .left-menu li a:hover {
+            background-color: rgb(12, 116, 12);
+            color: white;
+        }
+
+        /* 右侧内容区 */
+        .right-content {
+            flex-grow: 1;
+            padding: 40px;
+        }
+
+        .content-section {
+            display: none; /* 默认隐藏所有部分 */
+        }
+
+        .content-section.active {
+            display: block; /* 只显示激活的部分 */
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-right: 20px;
+            background-color: #ccc; /* 为没有图片的用户提供灰色背景 */
+            overflow: hidden; /* 确保内部图片被裁剪为圆形 */
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 确保图片填满容器而不变形 */
+        }
+
+        .username {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .profile-info p { /* 新增样式用于信息展示 */
+            font-size: 16px;
+            margin: 0;
+            padding: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select { /* 应用于 select */
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        
+        .form-group .custom-file-upload {
+             border: 1px solid #ccc;
+            display: inline-block;
+            padding: 8px 12px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .save-button {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .save-button:hover {
+            background-color: rgb(10, 90, 10);
+        }
+
+        /* My Posts 区域样式 */
+        .user-post-item {
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #f8f9fa;
+        }
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .post-type {
+            font-weight: bold;
+            color: #6c757d;
+            margin-right: 10px;
+        }
+        /* --- 修改这里 --- */
+        .user-post-item .post-title a {
+            font-weight: bold;
+            color: #28a745; /* 将颜色从蓝色改为绿色 */
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .user-post-item .post-title a:hover {
+            text-decoration: underline;
+            color: #218838; /* 鼠标悬停时颜色加深 */
+        }
+        /* --- 修改结束 --- */
+        .post-time {
+            color: #6c757d;
+            font-size: 0.9em;
+        }
+        .delete-post-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        .delete-post-btn:hover {
+            background-color: #c82333;
+        }
+        .post-content {
+            color: #333;
+        }
+
+        /* My Pictures 区域样式 */
+        .pictures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+        }
+        .picture-item {
+            position: relative;
+            border: 1px solid #e9ecef;
+            border-radius: 5px;
+            overflow: hidden; /* 确保图片和删除按钮在边框内 */
+        }
+        .picture-item img {
+            width: 100%;
+            height: 150px; /* 固定高度 */
+            object-fit: cover; /* 保持图片比例 */
+            display: block;
+        }
+        .delete-picture-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background-color: rgba(220, 53, 69, 0.8); /* 半透明背景 */
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            font-size: 14px;
+            line-height: 24px;
+            text-align: center;
+            opacity: 0; /* 默认隐藏 */
+            transition: opacity 0.3s, background-color 0.3s;
+        }
+        .picture-item:hover .delete-picture-btn {
+            opacity: 1; /* 悬停时显示 */
+        }
+        .delete-picture-btn:hover {
+            background-color: #c82333; /* 悬停时加深颜色 */
+        }
+
+        /* --- 修改这里：美化帖子类型分隔符 --- */
+        .post-type-separator {
+            margin: 40px 0 30px; /* 增加垂直间距，使其更突出 */
+            border: 0;
+            border-top: 1px solid #e9ecef; /* 使用上边框作为横线 */
+            text-align: center;
+        }
+        .post-type-separator span {
+            position: relative;
+            top: -0.8em; /* 将文字向上移动，使其覆盖在横线上 */
+            background: white; /* 设置背景色为白色，以“切断”横线 */
+            padding: 0 20px; /* 增加左右内边距，留出更多空白 */
+            font-size: 1.1em; /* 增大字体 */
+            font-weight: 600; /* 字体加粗 */
+            color: #6c757d; /* 保持柔和的灰色调 */
+        }
+        /* --- 修改结束 --- */
+
+        /* 页脚 */
+        .footer {
+            background-color: rgb(12, 116, 12);
+            height: 50px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 顶部导航栏 -->
+    <div class="top-nav">
+        <div class="logo">
+            <a href="TortoiseForum.html">Tortoise Forum</a>
+        </div>
+        <div class="user-actions">
+            <!-- 动态生成的用户操作按钮将在这里插入 -->
+        </div>
+    </div>
+
+    <!-- 主内容区 -->
+    <div class="main-container">
+        <!-- 左侧菜单 -->
+        <div class="left-menu">
+            <ul>
+                <li><a href="#" class="profile-menu-item active" data-target="view-profile">プロフィール表示</a></li>
+                <li><a href="#" class="profile-menu-item" data-target="edit-profile">プロフィール編集</a></li>
+                <li><a href="#" class="profile-menu-item" data-target="password">パスワード変更</a></li>
+                <li><a href="#" class="profile-menu-item" data-target="my-pictures">自分の写真</a></li>
+                <li><a href="#" class="profile-menu-item" data-target="my-posts">自分の投稿</a></li>
+            </ul>
+        </div>
+
+        <!-- 右侧内容区 -->
+        <div class="right-content">
+            <!-- 查看个人资料 (不可编辑) -->
+            <div id="view-profile" class="content-section active">
+                <h2>マイプロフィール</h2>
+                <div class="profile-header">
+                    <div class="avatar" id="profile-avatar"></div>
+                    <span class="username" id="profile-username"></span>
+                </div>
+                <div class="form-group profile-info">
+                    <label>メールアドレス</label>
+                    <p id="profile-email"></p>
+                </div>
+                 <div class="form-group profile-info">
+                    <label>国</label>
+                    <p id="profile-country"></p>
+                </div>
+            </div>
+
+            <!-- 个人资料编辑 (可编辑) -->
+            <div id="edit-profile" class="content-section">
+                <h2>プロフィール編集</h2>
+                <div class="form-group">
+                    <label>現在の頭像</label>
+                    <div class="profile-header" style="margin-bottom: 10px;">
+                        <div class="avatar" id="avatar-preview"></div>
+                    </div>
+                    <label for="file-upload">頭像を変更</label>
+                    <input type="file" id="file-upload" accept="image/*" style="display:none;">
+                    <label for="file-upload" class="custom-file-upload">ファイルを選択</label>
+                </div>
+                <div class="form-group">
+                    <label for="email">メールアドレス</label>
+                    <input type="email" id="email" value="">
+                </div>
+                 <div class="form-group">
+                    <label for="country">国</label>
+                    <select id="country" name="country">
+                        <option value="" disabled selected>-- 国を選択してください --</option>
+                        <option value="United States">United States</option>
+                        <option value="Canada">Canada</option>
+                        <option value="United Kingdom">United Kingdom</option>
+                        <option value="Australia">Australia</option>
+                        <option value="China">China</option>
+                        <option value="Japan">Japan</option>
+                        <option value="Germany">Germany</option>
+                        <option value="France">France</option>
+                        <option value="India">India</option>
+                        <option value="Brazil">Brazil</option>
+                        <option value="Russia">Russia</option>
+                        <option value="Italy">Italy</option>
+                        <option value="Spain">Spain</option>
+                        <option value="South Korea">South Korea</option>
+                        <option value="Mexico">Mexico</option>
+                        <option value="Indonesia">Indonesia</option>
+                        <option value="Netherlands">Netherlands</option>
+                        <option value="Switzerland">Switzerland</option>
+                        <option value="Sweden">Sweden</option>
+                        <option value="Singapore">Singapore</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <button class="save-button">変更を保存</button>
+            </div>
+
+            <!-- 密码修改 -->
+            <div id="password" class="content-section">
+                <h2>パスワード変更</h2>
+                <div class="form-group">
+                    <label for="current-password">現在のパスワード</label>
+                    <input type="password" id="current-password">
+                </div>
+                <div class="form-group">
+                    <label for="new-password">新しいパスワード</label>
+                    <input type="password" id="new-password">
+                </div>
+                <div class="form-group">
+                    <label for="confirm-new-password">新しいパスワードの確認</label>
+                    <input type="password" id="confirm-new-password">
+                </div>
+                <button class="save-button">パスワードを保存</button>
+            </div>
+
+            <!-- 我的图片 -->
+            <div id="my-pictures" class="content-section">
+                <h2>自分の写真</h2>
+                <div id="my-pictures-list" class="pictures-grid">
+                    <!-- 上传的图片将动态加载到这里 -->
+                </div>
+            </div>
+
+            <!-- 我的帖子 -->
+            <div id="my-posts" class="content-section">
+                <h2>自分の投稿</h2>
+                <div id="my-posts-list">
+                    <!-- 帖子和回复将动态加载到这里 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 页脚 -->
+    <div class="footer"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="forum.js"></script>
+    <script src="get_user_profile.js"></script>
+    <script>
+        // 头像预览
+        document.getElementById('file-upload').addEventListener('change', function(event) {
+            const [file] = event.target.files;
+            if (file) {
+                document.getElementById('avatar-preview').innerHTML = '<img src="' + URL.createObjectURL(file) + '">';
+            }
+        });
+    </script>
+</body>
+</html>

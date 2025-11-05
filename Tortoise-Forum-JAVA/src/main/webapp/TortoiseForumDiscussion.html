@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Discussion</title>
+    <style>
+        /* --- 统一的绿色主题样式 --- */
+        body {
+            margin: 0;
+            background-color: rgb(214, 234, 240);
+            padding-top: 70px; /* For fixed top-nav */
+            padding-bottom: 50px; /* For fixed bottom-bar */
+        }
+
+        .top-nav {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+        }
+
+        .top-nav .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 5px 10px; /* 新增：增加内边距 */
+            margin-left: -10px; /* 新增：增加负外边距 */
+            border-radius: 5px; /* 新增：增加圆角 */
+            transition: background-color 0.3s ease; /* 新增：增加过渡效果 */
+        }
+        
+        /* 悬停效果 */
+        .top-nav .logo a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .top-nav .user-actions input[type="button"] {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        .top-nav .user-actions input[type="button"]:hover {
+            background-color: white;
+            color: rgb(12, 116, 12);
+        }
+
+        /* --- 黑色标题栏样式 --- */
+        .topics-header {
+            display: flex;
+            justify-content: center; /* 居中显示标题 */
+            align-items: center;
+            background-color: black;
+            color: white;
+            padding: 8px 15px;
+        }
+
+        .topics-header h2 {
+            margin: 0;
+            padding: 0;
+            font-size: 1.2em; /* 调整字体大小以适应标题栏 */
+        }
+
+        /* --- 容器和帖子样式 --- */
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+
+        .post-container {
+            display: flex;
+            border: 1px solid #e1e1e1;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            background-color: #f9f9f9;
+            overflow: hidden; /* 防止子元素溢出圆角 */
+        }
+
+        .post-author-info {
+            flex: 0 0 150px; /* 左侧作者信息区域固定宽度 */
+            padding: 15px;
+            text-align: center;
+            border-right: 1px solid #e1e1e1;
+            background-color: #f1f1f1;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background-color: #ccc; /* 头像占位符颜色 */
+            border-radius: 50%; /* 圆形头像框 */
+            margin: 0 auto 10px;
+            overflow: hidden; /* 确保内部图片不会溢出圆形边框 */
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 缩放图片以填充容器，同时保持比例，多余部分被裁剪 */
+        }
+
+        .username {
+            font-weight: bold;
+            color: rgb(12, 116, 12);
+        }
+
+        .post-body {
+            flex-grow: 1;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .post-main-content {
+            flex-grow: 1;
+            line-height: 1.7;
+            color: #333;
+        }
+
+        .post-timestamp {
+            text-align: right;
+            font-size: 0.8em;
+            color: #666;
+            margin-top: 10px;
+        }
+        
+        .main-post .post-author-info {
+             background-color: #e8f5e9; /* 主贴左侧栏使用淡绿色高亮 */
+        }
+
+        /* --- 回复表单样式 --- */
+        .reply-form-container {
+            margin-top: 20px;
+        }
+
+        .reply-form-container form textarea {
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            font-size: 16px;
+            min-height: 120px;
+            margin-bottom: 10px;
+        }
+
+        .reply-form-container form button {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .reply-form-container form button:hover {
+            background-color: rgb(8, 80, 8);
+        }
+
+        .footer-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgb(12, 116, 12);
+            height: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-nav">
+        <div class="logo">
+            <a href="TortoiseForum.html">Tortoise Forum</a>
+        </div>
+        <div class="user-actions">
+            <!-- 用户登录状态动态显示 -->
+        </div>
+    </div>
+
+    <!-- 图片横幅 -->
+    <div style="width: 100%; position: relative;">
+        <img src="./image/title.jpg" alt="tortoise" style="width: 100%; height: 100px; display: block;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    display: flex; align-items: center; gap: 15px;">
+            <img src="./image/title tortoise.jpg" alt="welcome" style="width: 100px; height: 50px;">
+            <p style="font-size: 1.5em; color: rgb(141, 219, 219); margin: 0; font-weight: bold;">ようこそ</p>
+        </div>
+    </div>
+    <br>
+
+    <!-- 黑色标题栏，用于居中显示帖子标题 -->
+    <div class="topics-header">
+        <h2 id="discussion-title" style="color: white;">ディスカッションを読み込み中...</h2>
+    </div>
+
+    <div class="container">
+        <div class="posts-container" id="posts-container">
+            <!-- 动态帖子将在这里插入 -->
+        </div>
+
+        <!-- 帖子内容区域 -->
+        <div id="discussion-container">
+            <!-- 帖子内容将在这里动态插入 -->
+        </div>
+
+        <!-- 回复表单区域 -->
+        <div class="reply-form-container">
+            <h3 id="reply-form-header">返信する</h3>
+            <form action="save_post" method="POST" id="reply-form">
+                <textarea id="reply-content" name="content" rows="8" placeholder="ここに返信を記入してください..." required></textarea>
+                <!-- 隐藏字段，用于存储帖子ID -->
+                <input type="hidden" name="topic_id" id="topic_id_field" value="">
+                <button type="submit" id="submit-reply-btn" class="post-thread-btn">返信を投稿</button>
+            </form>
+        </div>
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="forum.js"></script>
+    <script src="get_discussion_details.js"></script>
+    
+    <script>
+        $(document).ready(function() {
+            // 回复表单提交事件
+            $('#reply-form').on('submit', function(event) {
+                if ($('#reply-content').is(':disabled')) {
+                    // 禁用状态下，阻止表单提交
+                    event.preventDefault();
+                    // 禁用状态下，提示用户登录
+                    alert('返信を投稿するにはログインしてください。');
+                } else if ($('#reply-content').val().trim() === '') {
+                    // 检查回复内容是否为空
+                    event.preventDefault(); // 阻止表单提交
+                    alert('返信内容を入力してください。'); // 提示用户输入内容
+                }
+                // 启用状态下且内容不为空，允许表单提交
+            });
+        });
+    </script>
+
+</body>
+</html>

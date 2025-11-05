@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"> 
+    <title> Register - Tortoise Forum </title>
+    <style>
+        /* --- 导航栏添加的统一样式 --- */
+        body {
+            margin: 0; /* 移除默认外边距，确保导航栏全宽 */
+            padding-top: 70px; /* 为顶部固定导航栏留出空间 */
+            padding-bottom: 50px; /* 为底部固定导航栏留出空间 */
+            /* --- 保留页面原有的背景色 --- */
+            background-color: rgb(214, 234, 240); 
+        }
+        .top-nav {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+        }
+        .top-nav .logo a {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .top-nav .user-actions input[type="button"] {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .top-nav .user-actions input[type="button"]:hover {
+            background-color: white;
+            color: rgb(12, 116, 12);
+        }
+
+        /* --- 注册页面样式 --- */
+        .register-container {
+            background-color: #ffffff;
+            padding: 30px 40px;
+            border-radius: 10px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            margin: 40px auto;
+            max-width: 500px;
+        }
+
+        .register-container h1 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 28px;
+            text-align: center;
+        }
+
+        /* 表单组样式 */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select { /* 将 select 元素加入样式规则 */
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box; /* 确保 padding 不会影响宽度 */
+            font-size: 16px;
+            background-color: white; /* 确保下拉菜单背景为白色 */
+        }
+
+        /* 新增：自定义文件上传按钮样式 */
+        input[type="file"] {
+            display: none;
+        }
+
+        .custom-file-upload {
+            border: 1px solid #ccc;
+            display: inline-block;
+            padding: 8px 12px;
+            cursor: pointer;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .custom-file-upload:hover {
+            background-color: #e6e6e6;
+        }
+
+        #file-name {
+            margin-left: 10px;
+            color: #777;
+            font-style: italic;
+        }
+
+        /* 注册按钮样式 */
+        .register-button {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+
+        .register-button:hover {
+            background-color: rgb(8, 86, 9);
+        }
+
+        /* 登录提示 */
+        .login-prompt {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .login-prompt a {
+            color: rgb(12, 116, 12);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="top-nav">
+        <div class="logo">
+            <a href="TortoiseForum.html">Tortoise Forum</a>
+        </div>
+    </div>
+    
+    <!-- 注册表单 -->
+    <div class="register-container">
+        <h1>アカウントを作成</h1>
+        <form id="register-form" action="#" method="post"> <!-- 局部更新，向Sign.php提交 -->
+            <div class="form-group">
+                <label for="username">ユーザー名</label>
+                <input type="text" id="username" name="username" placeholder="入力してください" required>
+            </div>
+            <div class="form-group">
+                <label for="email">メールアドレス</label>
+                <input type="email" id="email" name="email" placeholder="入力してください" required>
+            </div>
+            <div class="form-group">
+                <label for="country">国</label>
+                <select id="country" name="country">
+                    <option value="" disabled selected>国を選択してください</option>
+                    <option value="United States">United States</option>
+                    <option value="Canada">Canada</option>
+                    <option value="United Kingdom">United Kingdom</option>
+                    <option value="Australia">Australia</option>
+                    <option value="China">China</option>
+                    <option value="Japan">Japan</option>
+                    <option value="Germany">Germany</option>
+                    <option value="France">France</option>
+                    <option value="India">India</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="Russia">Russia</option>
+                    <option value="Italy">Italy</option>
+                    <option value="Spain">Spain</option>
+                    <option value="South Korea">South Korea</option>
+                    <option value="Mexico">Mexico</option>
+                    <option value="Indonesia">Indonesia</option>
+                    <option value="Netherlands">Netherlands</option>
+                    <option value="Switzerland">Switzerland</option>
+                    <option value="Sweden">Sweden</option>
+                    <option value="Singapore">Singapore</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="password">パスワード</label>
+                <input type="password" id="password" name="password" placeholder="パスワードを入力してください" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">パスワードの確認</label>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="パスワードを再入力してください" required>
+            </div>
+            <div class="form-group">
+                <label for="profilepic">プロフィール写真（任意）</label>
+                <label for="file-upload" class="custom-file-upload">
+                    ファイルを選択
+                </label>
+                <input id="file-upload" name="profilepic" type="file" accept="image/*">
+                <span id="file-name">選択されていません</span>
+            </div>
+            <div id="error-message" style="color: red; text-align: center; margin-bottom: 15px; font-weight: bold;"></div>
+            <button type="submit" class="register-button">登録</button>
+        </form>
+        <div class="login-prompt">
+            アカウントをお持ちの場合 <a href="TortoiseForumLog.html">ログイン</a>
+        </div>
+    </div>
+
+    <!-- 统一页脚 -->
+    <div style="position: fixed; bottom: 0; width: 100%; background-color: rgb(12, 116, 12); height: 50px;">
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="Sign.js"></script>
+</body>
+</html>

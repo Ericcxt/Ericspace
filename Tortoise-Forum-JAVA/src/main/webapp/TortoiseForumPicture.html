@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"> 
+    <title> Tortoise Forum </title>
+    <style>
+        /* --- 统一网站样式 --- */
+        body {
+            margin: 0; /* 移除body的默认外边距 */
+            background-color: rgb(214, 234, 240); 
+            padding-top: 70px; /* 增加顶部内边距以避免内容被导航栏遮挡 */
+            padding-bottom: 50px; 
+        }
+        .top-nav {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+        }
+        .top-nav .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 5px 10px;
+            margin-left: -10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .top-nav .logo a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav .user-actions input[type="button"] {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .top-nav .user-actions input[type="button"]:hover {
+            background-color: white;
+            color: rgb(12, 116, 12);
+        }
+        /* --- Picture页面原有的样式 --- */
+        .upload-section {
+            background-color: #ffffff;
+            padding: 25px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .upload-section h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #333;
+            font-size: 1.5em;
+        }
+        .upload-controls {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .file-input-btn, .upload-btn {
+            color: white;
+            background-color: rgb(12, 116, 12);
+            padding: 12px 25px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            border: none;
+            transition: background-color 0.3s;
+        }
+        .file-input-btn:hover, .upload-btn:hover {
+            background-color: rgb(8, 80, 8);
+        }
+        #file-input {
+            display: none;
+        }
+        #file-name {
+            color: #555;
+            font-style: italic;
+        }
+        #image-preview-container {
+            margin-top: 20px;
+            display: none; /* 初始状态下隐藏图片预览容器 */
+        }
+        #image-preview {
+            max-width: 100%;
+            max-height: 250px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            padding: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .image-wrapper {
+            position: relative;
+            width: 19%;
+            padding-top: 19%; /* 保持1:1的宽高比 */
+            cursor: pointer;
+        }
+
+        .image-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .image-tooltip {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: rgba(0, 0, 0, 0.6);
+            color: white;
+            text-align: center;
+            padding: 5px 0;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none; /* 确保悬浮框不会干扰鼠标事件 */
+        }
+
+        .image-wrapper:hover .image-tooltip {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- 从 TortoiseForum.html 复制过来的顶部导航栏 -->
+    <div class="top-nav">
+        <div class="logo">
+            <a href="TortoiseForum.html">Tortoise Forum</a>
+        </div>
+        <div class="user-actions">
+            <!-- 通过js动态添加用户信息 -->
+        </div>
+    </div>
+
+    <!-- 给父容器添加 position: relative -->
+    <div style="width: 100%; position: relative;">
+        <!-- 背景图片，建议添加 display: block 来移除图片底部可能出现的空白 -->
+        <img src="./image/title.jpg" alt="tortoise" style="width: 100%; height: 100px; display: block;">
+        
+        <!-- 在这个居中的容器上应用 Flexbox -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    display: flex; /* 让内部元素（图片和文字）水平排列 */
+                    align-items: center; /* 让它们垂直居中对齐 */
+                    gap: 15px; /* 在图片和文字之间添加一些间距 */">
+            
+            <!-- 为了更好的视觉效果，我稍微缩小了图片尺寸 -->
+            <img src="./image/title tortoise.jpg" alt="welcome" style="width: 100px; height: 50px;">
+            
+            <!-- 移除 p 标签的默认外边距，并可以加粗字体 -->
+            <p style="font-size: 1.5em; color: rgb(141, 219, 219); margin: 0; font-weight: bold;">ようこそ</p>
+        </div>
+    </div>
+
+    <br>
+    <h2 style="background-color: black; color: white; padding: 8px 15px; margin: 0; font-size: 1.5em; text-align: center;"><a href="TortoiseForumPicture.html" style="color: white; text-decoration: none; display: inline-block; padding: 3px 8px; border-radius: 5px; transition: background-color 0.3s ease;" onmouseover="this.style.backgroundColor='rgba(255, 255, 255, 0.2)';" onmouseout="this.style.backgroundColor='transparent';"> 最新メディア </a></h2>
+    
+    <!-- 图片展示区，包含固定的官方图片 -->
+    <div id="pictures-grid" style="display: flex; flex-wrap: wrap; gap: 1.25%;">
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/1.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/2.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/3.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/4.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/5.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/6.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/7.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/8.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/9.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+        <div class="image-wrapper">
+            <div class="image-container" style="background-image: url('./image/10.jpg');"></div>
+            <div class="image-tooltip">投稿者: 公式</div>
+        </div>
+    </div>
+
+
+
+    <!-- 用户上传图片界面 -->
+    <div class="upload-section">
+        <h3>写真をアップロード</h3>
+        <div class="upload-controls">
+            <!-- 给 label 添加一个 ID，方便 JS 定位 -->
+            <label for="file-input" class="file-input-btn" id="choose-file-label">ファイルを選択</label>
+            <input type="file" id="file-input" accept="image/*">
+            <span id="file-name">ファイルが選択されていません</span>
+            <button class="upload-btn" id="upload-btn">アップロード</button>
+        </div>
+        <!-- 用于显示上传状态/错误信息的 div -->
+        <div id="upload-message" style="margin-top: 15px; font-weight: bold;"></div>
+        <div id="image-preview-container">
+            <img id="image-preview" src="#" alt="画像プレビュー"/>
+        </div>
+    </div>
+
+
+    <!-- 统一的底部导航栏 -->
+    <div style="position: fixed; bottom: 0; width: 100%; background-color: rgb(12, 116, 12); height: 50px;">
+    </div>
+
+    <!-- 引入 jQuery 和脚本 -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="forum.js"></script>
+    <script src="Upload.js"></script>
+    <script src="TortoiseForumPicture.js"></script>
+</body>
+</html>

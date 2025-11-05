@@ -1,0 +1,7 @@
+com/example/LogServlet.class
+com/example/SignServlet.class
+com/example/GetImagesServlet.class
+com/example/CheckSessionServlet.class
+com/example/UploadServlet.class
+com/example/LogoutServlet.class
+com/example/HelloServlet.class

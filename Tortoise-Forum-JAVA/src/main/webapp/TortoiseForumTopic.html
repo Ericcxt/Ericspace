@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"> 
+    <title> Tortoise Forum </title>
+    <style>
+        /* --- 统一的样式 --- */
+        body {
+            margin: 0; /* 移除body的默认外边距 */
+            background-color: rgb(214, 234, 240); 
+            padding-top: 70px; /* 增加顶部内边距以避免内容被导航栏遮挡 */
+            padding-bottom: 50px; 
+        }
+        .top-nav {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+        .top-nav a {
+            color: white;
+            text-decoration: none;
+        }
+        .top-nav .logo a {
+            font-size: 24px;
+            font-weight: bold;
+            padding: 5px 10px;
+            margin-left: -10px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .top-nav .logo a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        .top-nav .user-actions input[type="button"] {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .top-nav .user-actions input[type="button"]:hover {
+            background-color: white;
+            color: rgb(12, 116, 12);
+        }
+
+        /* --- Topic页面原有的样式 --- */
+        .topics-header {
+            position: relative;
+            text-align: center;
+            background-color: black;
+            color: white;
+            padding: 8px 15px; /* 调整内边距以恢复原始高度 */
+        }
+
+        .topics-header h2 {
+            margin: 0;
+            padding: 0; /* 移除内边距 */
+        }
+
+        .topics-header a {
+            color: white;
+            text-decoration: none;
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .topics-header a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .filter-container {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .filter-button {
+            background-color: #333;
+            color: white;
+            border: 1px solid #555;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .filter-dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 100%;
+            background-color: #333;
+            border: 1px solid #555;
+            border-radius: 5px;
+            z-index: 10;
+            min-width: 150px;
+            padding: 5px 0;
+        }
+
+        .filter-dropdown a {
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            font-size: 14px; /* 下拉菜单字体大小防止换行 */
+        }
+
+        .filter-dropdown a:hover {
+            background-color: #555;
+        }
+
+        .pagination-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 8px;
+        }
+
+        .pagination {
+            display: flex;
+            gap: 5px;
+        }
+
+        .pagination a {
+            color: #333;
+            text-decoration: none;
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .pagination a.active {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            border-color: rgb(12, 116, 12);
+        }
+
+        .pagination a:hover:not(.active) {
+            background-color: #ddd;
+        }
+
+        .post-thread-button {
+            background-color: rgb(12, 116, 12);
+            color: white;
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <div class="top-nav">
+        <div class="logo">
+            <a href="TortoiseForum.html">Tortoise Forum</a>
+        </div>
+        <div class="user-actions">
+            <!-- 动态插入按钮 -->
+        </div>
+    </div>
+
+    <!-- 给父容器添加 position: relative -->
+    <div style="width: 100%; position: relative;">
+        <!-- 背景图片，建议添加 display: block 来移除图片底部可能出现的空白 -->
+        <img src="./image/title.jpg" alt="tortoise" style="width: 100%; height: 100px; display: block;">
+        
+        <!-- 在这个居中的容器上应用 Flexbox -->
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+                    display: flex; /* 让内部元素（图片和文字）水平排列 */
+                    align-items: center; /* 让它们垂直居中对齐 */
+                    gap: 15px; /* 在图片和文字之间添加一些间距 */">
+            
+            <!-- 为了更好的视觉效果，我稍微缩小了图片尺寸 -->
+            <img src="./image/title tortoise.jpg" alt="welcome" style="width: 100px; height: 50px;">
+            
+            <!-- 移除 p 标签的默认外边距，并可以加粗字体 -->
+            <p style="font-size: 1.5em; color: rgb(141, 219, 219); margin: 0; font-weight: bold;">Welcome</p>
+        </div>
+    </div>
+
+    <br>
+
+    <div class="topics-header">
+        <h2><a href="TortoiseForumTopic.html">亀のトピック</a></h2>
+        <div class="filter-container">
+            <button class="filter-button" onclick="toggleFilter()">フィルター</button>
+            <div class="filter-dropdown" id="filterDropdown">
+                <a href="#" id="sort-by-time">時間で並べ替え</a>
+                <a href="#" id="sort-by-popularity">人気順で並べ替え</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="pagination-bar">
+        <a href="#" class="post-thread-button">スレッドを投稿する</a>
+    </div>
+
+    <!-- 这个容器将用于存放动态加载的主题 -->
+    <div id="topic-list-container" style="max-width: 85%; margin: 0 auto; background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);"></div>
+
+    <div class="pagination-bar">
+        <div class="pagination" id="pagination-container-bottom">
+            <!-- 分页将在此处动态插入 -->
+        </div>
+    </div>
+
+    <div style="position: fixed; bottom: 0; width: 100%; background-color: rgb(12, 116, 12); height: 50px;">
+        <!-- 这里可以放页脚的内容，比如版权信息等 -->
+    </div>
+
+    <script>
+        function toggleFilter() {
+            var dropdown = document.getElementById("filterDropdown");
+            if (dropdown.style.display === "block") {
+                dropdown.style.display = "none";
+            } else {
+                dropdown.style.display = "block";
+            }
+        }
+
+        // 点击页面其他地方关闭下拉菜单
+        window.onclick = function(event) {
+            if (!event.target.matches('.filter-button')) {
+                var dropdowns = document.getElementsByClassName("filter-dropdown");
+                for (var i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.style.display === "block") {
+                        openDropdown.style.display = "none";
+                    }
+                }
+            }
+        }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="get_paged_topics.js"></script>
+    <script>
+        // “发布主题”按钮的逻辑
+        $(document).ready(function() {
+            $('.pagination-bar .post-thread-button').on('click', function(e) {
+                e.preventDefault(); // 阻止默认的链接行为
+
+                // 通过 AJAX 调用检查会话状态
+                $.ajax({
+                    url: 'check_session',
+                    type: 'get',
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.status === 'loggedin') {
+                            // 已登录，直接跳转到发布主题页面
+                            window.location.href = 'TortoiseForumPost.html';
+                        } else {
+                            // 如果未登录，提示登录
+                            alert('新しいスレッドを投稿するには、ログインしてください。');
+                        }
+                    },
+                    error: function() {
+                        // 处理服务器错误
+                        alert('ログイン状態を確認できませんでした。後でもう一度お試しください。');
+                    }
+                });
+            });
+        });
+    </script>
+    <script src="forum.js"></script>
+</body>
+</html>
