@@ -17,7 +17,9 @@ $db_password = "";
 $dbname = "test";
 
 $conn = new mysqli($servername, $db_username, $db_password, $dbname);
+$conn->set_charset("utf8");
 
+// 检查连接
 if ($conn->connect_error) {
     echo json_encode(['status' => 'error', 'message' => 'Database connection failed: ' . $conn->connect_error]);
     exit;
@@ -26,7 +28,7 @@ if ($conn->connect_error) {
 $response = ['status' => 'success', 'posts' => []];
 
 try {
-    // 1. 获取用户创建的所有主题（作为帖子）
+    // 获取用户创建的所有主题（作为帖子）
     // 我们需要连接 tortoisetopic 和 tortoisepost 来获取主题的标题和内容
     $sql_topics = "
         SELECT 
@@ -54,7 +56,7 @@ try {
     }
     $stmt_topics->close();
 
-    // 2. 获取用户的所有回复
+    // 获取用户的所有回复
     // 我们需要排除掉每个主题的第一个帖子，因为它们是主题帖，已经在上面获取过了
     $sql_replies = "
         SELECT 

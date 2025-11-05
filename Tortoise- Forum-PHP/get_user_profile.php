@@ -17,7 +17,9 @@ $db_password = "";
 $dbname = "test";
 
 $conn = new mysqli($servername, $db_username, $db_password, $dbname);
+$conn->set_charset("utf8");
 
+// 检查连接
 if ($conn->connect_error) {
     error_log("データベース接続エラー: " . $conn->connect_error);
     die(json_encode(['status' => 'error', 'message' => 'データベース接続に失敗しました。']));

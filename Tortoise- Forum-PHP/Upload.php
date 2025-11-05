@@ -82,7 +82,10 @@ try {
     $db_name = 'test'; // 
 
     $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+    $conn->set_charset("utf8");
+
     if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
         // 在生产环境中，不应暴露详细的连接错误
         throw new Exception('数据库连接失败，请联系管理员。');
     }

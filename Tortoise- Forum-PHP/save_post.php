@@ -28,7 +28,9 @@ $password = "";
 $dbname = "test";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
+$conn->set_charset("utf8");
 
+// 检查连接
 if ($conn->connect_error) {
     die('Database connection failed: ' . $conn->connect_error);
 }

@@ -9,8 +9,9 @@ $dbname = "test";        // 数据库名
 
 // 创建数据库连接
 $conn = new mysqli($servername, $username, $password, $dbname);
+$conn->set_charset("utf8");
 
-// 检查连接是否成功
+// 检查连接
 if ($conn->connect_error) {
     echo json_encode(['success' => false, 'message' => 'データベース接続に失敗しました: ' . $conn->connect_error]);
     exit;

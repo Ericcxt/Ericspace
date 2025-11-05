@@ -15,9 +15,10 @@ $db_name = 'test';
 
 // 创建数据库连接
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+$conn->set_charset("utf8");
 
-// 检查连接是否成功
 if ($conn->connect_error) {
+    die(json_encode(['success' => false, 'message' => '数据库连接失败: ' . $conn->connect_error]));
     echo json_encode(['status' => 'error', 'message' => '登録中にエラーが発生しました。']);
     exit();
 }
@@ -87,7 +88,7 @@ $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // 将新用户信息插入数据库
 $stmt = $conn->prepare('INSERT INTO tortoiseuser (username, email, country, password, profilepic) VALUES (?, ?, ?, ?, ?)');
-// 注意：现在我们绑定的是哈希后的密码
+// 绑定的是哈希后的密码
 $stmt->bind_param('sssss', $username, $email, $country, $hashed_password, $profilepic_path);
 
 if ($stmt->execute()) {

@@ -10,6 +10,9 @@ if (!isset($_SESSION['username'])) {
 
 // 数据库连接
 $conn = new mysqli('localhost', 'root', '', 'test');
+$conn->set_charset("utf8");
+
+// 检查数据库连接
 if ($conn->connect_error) {
     echo json_encode(['status' => 'error', 'message' => 'データベース接続に失敗しました。']);
     exit;
@@ -47,7 +50,7 @@ if (!$user) {
     exit;
 }
 
-// --- 核心安全升级 (1/2): 使用 password_verify 验证当前密码 ---
+// 使用 password_verify 验证当前密码
 // $user['password'] 现在是数据库里存储的哈希值
 if (!password_verify($currentPassword, $user['password'])) {
     echo json_encode(['status' => 'error', 'message' => '現在のパスワードが正しくありません。']);
@@ -55,7 +58,7 @@ if (!password_verify($currentPassword, $user['password'])) {
     exit;
 }
 
-// --- 核心安全升级 (2/2): 哈希新密码后再存入数据库 ---
+// 哈希新密码后再存入数据库
 $newPasswordHash = password_hash($newPassword, PASSWORD_DEFAULT);
 
 // 更新数据库中的密码

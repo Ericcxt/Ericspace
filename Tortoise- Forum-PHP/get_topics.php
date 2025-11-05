@@ -8,14 +8,16 @@ $db_password = "";
 $dbname = "test";
 
 $conn = new mysqli($servername, $db_username, $db_password, $dbname);
+$conn->set_charset("utf8");
 
+// Check connection
 if ($conn->connect_error) {
     echo json_encode(['status' => 'error', 'message' => '数据库连接失败: ' . $conn->connect_error]);
     exit;
 }
 
 // --- 查询数据 ---
-// 这个查询会获取主题的各种信息，包括：
+// 获取主题的各种信息，包括：
 // t.id, t.title: 主题的ID和标题
 // t.userid: 主题创建者的用户名
 // t.createtime: 主题创建时间

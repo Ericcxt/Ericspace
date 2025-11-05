@@ -10,7 +10,10 @@ if (!isset($_SESSION['username'])) {
 
 // 数据库连接
 $conn = new mysqli('localhost', 'root', '', 'test');
+$conn->set_charset("utf8");
+
 if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
     echo json_encode(['status' => 'error', 'message' => 'データベース接続に失敗しました。']);
     exit;
 }
@@ -36,7 +39,7 @@ if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
     $stmt_old->fetch();
     $stmt_old->close();
 
-    // 2. 处理新上传的图片
+    // 处理新上传的图片
     $upload_dir = 'avatar/';
     // 确保目录存在且可写
     if (!is_dir($upload_dir)) {
@@ -70,7 +73,7 @@ if (isset($_FILES['avatar']) && $_FILES['avatar']['error'] === UPLOAD_ERR_OK) {
     }
 }
 
-// --- 修改：处理邮箱和国家更新 ---
+// --- 处理邮箱和国家更新 ---
 // 处理邮箱更新
 if (!empty($email)) {
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -115,7 +118,7 @@ $stmt = $conn->prepare($sql);
 $stmt->bind_param($types, ...$params);
 
 if ($stmt->execute()) {
-    // --- 新增：如果新头像上传成功，则删除旧头像 ---
+    // --- 如果新头像上传成功，则删除旧头像 ---
     if ($new_avatar_uploaded && !empty($old_avatar_path) && file_exists($old_avatar_path)) {
         unlink($old_avatar_path);
     }

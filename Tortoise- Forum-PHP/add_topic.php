@@ -26,7 +26,9 @@ $db_password = ""; // 如果您设置了数据库密码，请填写
 $dbname = "test";
 
 $conn = new mysqli($servername, $db_username, $db_password, $dbname);
+$conn->set_charset("utf8");
 
+// 检查连接
 if ($conn->connect_error) {
     echo json_encode(['status' => 'error', 'message' => '数据库连接失败: ' . $conn->connect_error]);
     exit;
@@ -36,7 +38,7 @@ if ($conn->connect_error) {
 $conn->begin_transaction();
 
 try {
-    // 1. 在 tortoisetopic 中插入数据
+    // 在 tortoisetopic 中插入数据
     $stmt_topic = $conn->prepare("INSERT INTO tortoisetopic (title, userid, createtime, lastreplytime) VALUES (?, ?, NOW(), NOW())");
     $stmt_topic->bind_param("ss", $title, $username);
     $stmt_topic->execute();
@@ -44,7 +46,7 @@ try {
     // 获取新主题的 ID
     $new_topic_id = $conn->insert_id;
 
-    // 2. 在 tortoisepost 中插入第一条帖子
+    // 在 tortoisepost 中插入第一条帖子
     $stmt_post = $conn->prepare("INSERT INTO tortoisepost (topicid, userid, content, createtime) VALUES (?, ?, ?, NOW())");
     $stmt_post->bind_param("iss", $new_topic_id, $username, $content);
     $stmt_post->execute();

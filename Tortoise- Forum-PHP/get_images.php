@@ -7,8 +7,10 @@ $db_pass = '';
 $db_name = 'test';
 
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+$conn->set_charset("utf8");
 
 if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
     echo json_encode(['success' => false, 'error' => '数据库连接失败: ' . $conn->connect_error]);
     exit();
 }

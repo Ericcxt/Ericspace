@@ -9,7 +9,9 @@ $username = "root";
 $password = "";
 $dbname = "test";
 $conn = new mysqli($servername, $username, $password, $dbname);
+$conn->set_charset("utf8");
 
+// 检查连接
 if ($conn->connect_error) {
     echo json_encode(['status' => 'error', 'message' => '数据库连接失败: ' . $conn->connect_error]);
     exit;

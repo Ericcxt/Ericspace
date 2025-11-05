@@ -7,10 +7,10 @@ $db_name = 'test';
 
 // 创建数据库连接
 $conn = new mysqli($db_host, $db_user, $db_pass, $db_name);
+$conn->set_charset("utf8");
 
-// 检查连接
 if ($conn->connect_error) {
-    die("数据库连接失败: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
 
 echo "<h1>旧密码迁移脚本 (V2 - 修正版)</h1>";
@@ -42,7 +42,7 @@ if ($result->num_rows > 0) {
         // 旧的判断 if ($info['algo'] === 0) 不够可靠。
         // 新的判断检查 algoName 是否为 'unknown'，这更准确。
         if ($info['algoName'] === 'unknown') {
-            // 额外检查，如果密码为空或仅有空格，我们不应该哈希它
+            // 额外检查，如果密码为空或仅有空格，不应该哈希它
             if (empty(trim($current_password))) {
                 echo "<span style='color:orange;'>判断: 密码为空，跳过更新。</span><br>";
                 $skipped_count++;

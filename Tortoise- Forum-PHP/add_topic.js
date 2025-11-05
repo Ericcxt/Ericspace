@@ -28,7 +28,7 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                // ��理 AJAX 请求本身的错误
+                // 处理 AJAX 请求本身的错误
                 alert('スレッドの作成中にエラーが発生しました。もう一度お試しください。詳細: ' + error);
             }
         });

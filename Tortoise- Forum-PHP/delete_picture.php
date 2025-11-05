@@ -18,13 +18,15 @@ $userId = $_SESSION['username'];
 $pictureId = $_POST['id'];
 
 $servername = "localhost";
-$username_db = "root"; // 变量重命名以避免与会话中的 'username' 混淆
+$username_db = "root"; 
 $password = "";
 $dbname = "test";
 
 // 数据库连接
 $conn = new mysqli($servername, $username_db, $password, $dbname);
+$conn->set_charset("utf8");
 
+// 检查连接
 if ($conn->connect_error) {
     echo json_encode(['success' => false, 'message' => 'データベース接続に失敗しました。: ' . $conn->connect_error]);
     exit;
@@ -54,7 +56,7 @@ try {
     $stmt->execute();
 
     if ($stmt->affected_rows > 0) {
-        // 逻辑修正：1. 提交事务 2. 删除文件 3. 发送响应
+        // 1. 提交事务 2. 删除文件 3. 发送响应
         $conn->commit();
         
         if (file_exists($filepath)) {
